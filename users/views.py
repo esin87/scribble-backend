@@ -32,7 +32,8 @@ class LoginView(generics.ListCreateAPIView):
             refresh = RefreshToken.for_user(user)
             serializer = TokenSerializer(data={
                 # using DRF JWT utility functions to generate a token
-                "token": str(refresh.access_token)
+                "token": str(refresh.access_token),
+                'user': UserSerializer(user, context={'request': request}).data
             })
             serializer.is_valid()
             return Response(serializer.data)
